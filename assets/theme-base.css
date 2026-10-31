@@ -26,10 +26,9 @@
 @keyframes twitch { 0%, 88%, 100% { transform: rotate(0); } 92% { transform: rotate(-8deg); } 96% { transform: rotate(4deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .env-wrap .deco, .env-wrap .deco * { animation: none !important; }
+  .env-wrap .deco .ill, .env-wrap .deco .wing, .env-wrap .deco .sq-tail, .env-wrap .deco .ears { animation: none !important; }
 }
 
 /* Tilpasninger af grundstilen til temaets farver */
-.env-flap .face.out { background: linear-gradient(180deg, var(--env-flap), var(--env-side)); }
 input[type="text"], input[type="number"], textarea, .opt span, .step { border-color: var(--input-line, #BFB8AA); }
 .step:hover { background: var(--bg); }

@@ -47,6 +47,7 @@
         this.master = this.ctx.createGain();
         this.master.gain.value = this.on ? C.lydstyrke : 0;
         this.master.connect(this.ctx.destination);
+        if (this.ctx.state === 'suspended') this.ctx.resume();
       } catch (e) { this.ctx = null; }
     },
     toggle() {
@@ -267,7 +268,6 @@
     Snd.init();
     const env = $('#envelope');
     $('#scene').classList.add('opening');
-    if (reduce) { reveal(true); return; }
     Snd.crack();
     if (navigator.vibrate) { try { navigator.vibrate(25); } catch (e) { /* ignoreres */ } }
     env.classList.add('cracked');
@@ -281,6 +281,7 @@
     const r = letter.getBoundingClientRect();
     const ov = document.createElement('div');
     ov.className = 'unfold';
+    if (typeof ov.animate !== 'function') { reveal(false); return; } // ældre browsere
     document.body.appendChild(ov);
     const from = { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px', borderRadius: getComputedStyle(letter).borderRadius };
     const to = { left: '0px', top: '0px', width: innerWidth + 'px', height: innerHeight + 'px', borderRadius: '0px' };

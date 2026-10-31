@@ -56,16 +56,16 @@ i[data-icon] svg { width: 100%; height: 100%; }
   overflow: hidden;
 }
 .env-wrap {
-  width: min(86vw, 500px);
-  aspect-ratio: 1.55;
+  --ew: min(86vw, 500px);
+  width: var(--ew);
+  height: calc(var(--ew) / 1.55);
   position: relative;
-  container-type: inline-size;
   animation: float 5s ease-in-out infinite;
 }
 .scene.opening .env-wrap { animation: none; }
 @keyframes float { 50% { transform: translateY(-8px) rotate(-0.4deg); } }
 
-.envelope { position: absolute; inset: 0; perspective: 1400px; cursor: pointer; }
+.envelope { position: absolute; top: 0; right: 0; bottom: 0; left: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .env-back {
   position: absolute; inset: 0; z-index: 0;
   background: var(--env-inside);
@@ -79,10 +79,10 @@ i[data-icon] svg { width: 100%; height: 100%; }
   box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
   transition: transform 1s cubic-bezier(.3, .7, .2, 1);
 }
-.el-inner { display: flex; flex-direction: column; align-items: center; padding-top: 6cqw; text-align: center; }
-.el-branch { width: 18cqw; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.el-kicker { margin-top: 1.5cqw; font-size: 2.6cqw; letter-spacing: .3em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-.el-title { font-family: var(--serif); font-size: 8.5cqw; font-weight: 500; line-height: 1.15; color: var(--ink); }
+.el-inner { display: flex; flex-direction: column; align-items: center; padding-top: calc(var(--ew) * 0.06); text-align: center; }
+.el-branch { width: calc(var(--ew) * 0.18); fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.el-kicker { margin-top: calc(var(--ew) * 0.015); font-size: calc(var(--ew) * 0.026); letter-spacing: .3em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+.el-title { font-family: var(--serif); font-size: calc(var(--ew) * 0.085); font-weight: 500; line-height: 1.15; color: var(--ink); }
 .envelope.letter-out .env-letter { transform: translateY(-60%); }
 
 .env-pocket {
@@ -100,28 +100,37 @@ i[data-icon] svg { width: 100%; height: 100%; }
   position: absolute; z-index: 3; left: 0; right: 0; top: 67%; bottom: 4%;
   display: flex; flex-direction: column; align-items: center; pointer-events: none;
 }
-.env-to { font-size: 2.6cqw; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-.env-name { font-family: var(--serif); font-style: italic; font-size: 5.8cqw; line-height: 1.15; color: var(--ink); max-width: 80%; text-align: center; }
+.env-to { font-size: calc(var(--ew) * 0.026); letter-spacing: .3em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.env-name { font-family: var(--serif); font-style: italic; font-size: calc(var(--ew) * 0.058); line-height: 1.15; color: var(--ink); max-width: 80%; text-align: center; }
 
 .env-flap {
   position: absolute; left: 0; right: 0; top: 0; height: 53%; z-index: 4;
   transform-origin: 50% 0;
-  transform-style: preserve-3d;
-  transition: transform .85s cubic-bezier(.45, .05, .25, 1), z-index 0s .42s;
-}
-.env-flap .face {
-  position: absolute; inset: 0;
+  -webkit-transform-origin: 50% 0;
+  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  background: linear-gradient(180deg, var(--env-flap), var(--env-side));
 }
-.env-flap .face.out { background: linear-gradient(180deg, var(--env-flap), #E2D9C8); }
-.env-flap .face.in { background: var(--env-inside); transform: rotateX(180deg); }
-.envelope.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+.env-flap .face { display: none; }
+/* Flappen åbnes som én enkel animation (ingen 3D-sider), så den også virker i Safari på iPhone */
+.envelope.open .env-flap { -webkit-animation: flap-open .85s cubic-bezier(.45, .05, .25, 1) forwards; animation: flap-open .85s cubic-bezier(.45, .05, .25, 1) forwards; }
+@-webkit-keyframes flap-open {
+  0% { -webkit-transform: perspective(1400px) rotateX(0deg); z-index: 4; }
+  49.9% { background: linear-gradient(180deg, var(--env-flap), var(--env-side)); z-index: 4; }
+  50% { -webkit-transform: perspective(1400px) rotateX(90deg); background: var(--env-inside); z-index: 1; }
+  100% { -webkit-transform: perspective(1400px) rotateX(180deg); background: var(--env-inside); z-index: 1; }
+}
+@keyframes flap-open {
+  0% { transform: perspective(1400px) rotateX(0deg); z-index: 4; }
+  49.9% { background: linear-gradient(180deg, var(--env-flap), var(--env-side)); z-index: 4; }
+  50% { transform: perspective(1400px) rotateX(90deg); background: var(--env-inside); z-index: 1; }
+  100% { transform: perspective(1400px) rotateX(180deg); background: var(--env-inside); z-index: 1; }
+}
 
 .seal {
   position: absolute; z-index: 5;
-  width: 16%; aspect-ratio: 1;
-  left: calc(50% - 8cqw); top: 53%; margin-top: -8cqw;
+  width: 16%; height: calc(var(--ew) * .16);
+  left: calc(50% - calc(var(--ew) * 0.08)); top: 53%; margin-top: calc(var(--ew) * -0.08);
   border: 0; padding: 0; background: none; cursor: pointer;
   border-radius: 50%;
   animation: pulse 2.6s ease-in-out infinite;
@@ -144,7 +153,7 @@ i[data-icon] svg { width: 100%; height: 100%; }
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, .25);
 }
 .seal .half span {
-  font-family: var(--serif); font-weight: 600; font-size: 9cqw; line-height: 1;
+  font-family: var(--serif); font-weight: 600; font-size: calc(var(--ew) * 0.09); line-height: 1;
   color: rgba(255, 255, 255, .88);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .35), 0 1px 0 rgba(255, 255, 255, .15);
   transform: translateY(-.04em);
@@ -197,6 +206,7 @@ main {
 
 .sec-title { font-size: 40px; text-align: center; color: var(--ink); }
 section { margin-top: 64px; }
+section.scene { margin-top: 0; }
 
 .letter .paper {
   background: var(--paper);
@@ -336,6 +346,8 @@ fieldset { border: 0; padding: 0; margin: 22px 0 0; }
   .t-time { font-size: 26px; }
   .card { padding: 24px 16px; }
 }
+/* "Reducer bevægelse" på iPhone: stop de små gentagne bevægelser, men lad konvolutten stadig åbne */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  .env-wrap, .seal, .hint, main, .ja-felter, .done { animation: none !important; }
+  .slide, .slide-img img { transition-duration: .01ms !important; }
 }
