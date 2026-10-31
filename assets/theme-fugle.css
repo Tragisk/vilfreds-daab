@@ -10,7 +10,7 @@
   --input-line: #A9B6C3;
 }
 .f-body { fill: #93ADC4; } .f-wing, .f-tail { fill: #6C88A2; } .f-belly { fill: #F4DCD2; } .f-beak { fill: #E3B266; }
-.f-heart { fill: #D9A2AC; } .f-leaf { fill: #A8BBA0; }
+.f-heart { fill: #D9A2AC; } .f-leaf { fill: #A8BBA0; } .f-baby { fill: #B9CCDD; }
 
 .scene { background: radial-gradient(1000px 600px at 50% 40%, #FAFCFD 0%, transparent 70%), var(--bg); }
 .letter .paper::before { border-color: rgba(79, 111, 140, .25); }
@@ -23,9 +23,11 @@
 
 /* Konvolut */
 .deco-branch { left: -10%; width: 120%; bottom: 86%; }
-.deco-bird { width: 13%; }
-.deco-bird.b1 { left: 27%; bottom: 103%; }
-.deco-bird.b2 { right: 25%; bottom: 103.5%; }
+.deco-bird { width: 14.5%; }
+.deco-bird.b1 { left: 20%; bottom: 103%; }
+.deco-bird.b2 { right: 18%; bottom: 103.5%; }
+.deco-bird.b3 { width: 9.5%; left: 45.5%; bottom: 104.2%; }
+.deco-bird.b3 .ill { animation-delay: -.6s; animation-duration: 1.8s; }
 .deco-bird .flip { display: block; }
 .deco-bird.b2 .flip { transform: scaleX(-1); }
 .deco-bird .ill { animation: bob 2.4s ease-in-out infinite; }
@@ -34,12 +36,14 @@
 .scene.opening .deco-bird .wing { animation: flap .14s linear infinite; }
 .scene.opening .deco-bird.b1 { animation: fly-l 1.4s ease-in forwards; }
 .scene.opening .deco-bird.b2 { animation: fly-r 1.4s .08s ease-in forwards; }
+.scene.opening .deco-bird.b3 { animation: fly-u 1.5s .18s ease-in forwards; }
 .scene.opening .deco-branch { opacity: 0; transition: opacity .6s .55s; }
 @keyframes fly-l { 15% { transform: translate(-10%, -40%); } 100% { transform: translate(-300%, -520%) rotate(-12deg); opacity: 0; } }
+@keyframes fly-u { 15% { transform: translate(0, -50%); } 100% { transform: translate(40%, -900%) rotate(6deg); opacity: 0; } }
 @keyframes fly-r { 15% { transform: translate(10%, -40%); } 100% { transform: translate(300%, -560%) rotate(12deg); opacity: 0; } }
 
 /* Hero, brev, skillelinjer */
 .hero-art .birdbranch { width: 250px; }
-.letter-deco { top: -37px; right: 28px; width: 48px; }
+.letter-deco { top: -36px; right: 30px; width: 40px; }
 .letter-deco .ill { transform: scaleX(-1); }
 .divider .ill { width: 70px; }
