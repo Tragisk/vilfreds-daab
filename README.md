@@ -6,7 +6,8 @@ Hjemmeside med konvolut, der åbnes, billeder, program, ønskesky og tilmelding.
 |---|---|
 | `index.html` | Selve invitationen (personligt link: `?g=…`) |
 | `admin.html` | Oversigt over tilmeldinger (login: samme som Pligter) |
-| `assets/style.css` | Udseende |
+| `assets/style.css` | Grundlæggende layout og konvolut |
+| `assets/theme-base.css`, `assets/theme-fugle.css` | Fugle-temaet: farver, skrifttyper og fuglefamilien |
 | `assets/config.js` | **Ret her:** billeder, dato, ønskesky, lydstyrke |
 | `img/` | Læg de 10 billeder her (fx `01.jpg` … `10.jpg`) |
 
