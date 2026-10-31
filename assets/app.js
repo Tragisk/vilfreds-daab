@@ -164,7 +164,8 @@
             const s = [5, 8, 12, 17][Math.floor(Math.random() * 4)] + Math.random() * 3;
             P.push({ kind: 'feather', x: Math.random() * W, y: -15 - Math.random() * H * 0.3, vx: 0,
               vy: (1 + Math.random() * 0.8) * (s > 13 ? 0.8 : 1), s, r: (Math.random() - 0.5) * 1.6,
-              vr: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6.28, c: colors[i % colors.length] });
+              vr: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6.28, c: colors[i % colors.length],
+              delay: 2000 }); // fjerene starter 2 sek. efter fuglene
             continue;
           }
           P.push({ kind, x: Math.random() * W, y: -20 - Math.random() * H * 0.6, vx: 0, vy: 0.6 + Math.random() * 0.9,
@@ -178,13 +179,14 @@
             ph: Math.random() * 6.28, c: colors[i % colors.length], round: Math.random() < 0.3 });
         }
       }
-      const life = birds ? 9000 : leaves ? 6500 : 4200;
+      const life = birds ? 11000 : leaves ? 6500 : 4200;
       const t0 = performance.now();
       const frame = (now) => {
         const el = now - t0;
         ctx.clearRect(0, 0, W, H);
         const fade = Math.max(0, Math.min(1, (life - el) / 900));
         P.forEach((p) => {
+          if (p.delay && el < p.delay) return;
           if (p.kind === 'bird') {
             p.ph += 0.32; p.x += p.vx; p.y += p.vy + Math.sin(p.ph * 0.25) * 0.4;
           } else if (leaves) {
