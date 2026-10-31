@@ -1,9 +1,6 @@
 // Fælles indstillinger for Vilfreds dåbsinvitation.
-// Ret tekster, billeder og valgt version her.
+// Ret tekster og billeder her.
 window.DAAB = {
-  // Hvilken version gæsterne sendes til fra hovedlinket: "klassisk", "farverig" eller null (vis valg)
-  valgtVersion: null,
-
   siteUrl: "https://tragisk.github.io/vilfreds-daab/",
 
   // Supabase (offentlig anon-nøgle – må gerne ligge i koden; data er beskyttet af databasen)

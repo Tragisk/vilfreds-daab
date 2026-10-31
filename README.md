@@ -4,15 +4,11 @@ Hjemmeside med konvolut, der åbnes, billeder, program, ønskesky og tilmelding.
 
 | Fil | Hvad |
 |---|---|
-| `index.html` | Hovedlink. Sender videre til den valgte version (eller viser valg) |
-| `klassisk.html` | Version som det trykte kort |
-| `farverig.html` | Legende, farverig version |
+| `index.html` | Selve invitationen (personligt link: `?g=…`) |
 | `admin.html` | Oversigt over tilmeldinger (login: samme som Pligter) |
-| `assets/config.js` | **Ret her:** valgt version, billeder, tekster, lydstyrke |
+| `assets/style.css` | Udseende |
+| `assets/config.js` | **Ret her:** billeder, dato, ønskesky, lydstyrke |
 | `img/` | Læg de 10 billeder her (fx `01.jpg` … `10.jpg`) |
-
-## Vælg version
-Sæt `valgtVersion: "klassisk"` eller `"farverig"` i `assets/config.js`.
 
 ## Billeder
 Læg filerne i `img/` og skriv stien i `billeder` i `assets/config.js`, fx `{ src: "img/01.jpg", tekst: "1 måned" }`.

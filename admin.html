@@ -103,14 +103,7 @@
       <textarea id="new-guests" rows="3" placeholder="Mormor &amp; Morfar&#10;Faster Line, Peter og børnene"></textarea>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="add" type="button">Tilføj</button>
-        <label class="muted" for="link-version" style="margin-left:auto">Links peger på</label>
-        <select id="link-version">
-          <option value="">Hovedlinket (anbefalet)</option>
-          <option value="klassisk">Klassisk version</option>
-          <option value="farverig">Farverig version</option>
-        </select>
       </div>
-      <p class="muted" id="version-note" style="font-size:14px;margin:8px 0 0"></p>
     </div>
 
     <div class="card">
@@ -159,19 +152,7 @@
   const fmtKg = (v) => String(v).replace('.', ',');
   const fmtDate = (s) => new Date(s).toLocaleString('da-DK', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
-  // Versionsvalg til links
-  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-  const sel = $('link-version');
-  sel.value = store.get('daab_link_version') || '';
-  sel.addEventListener('change', () => { store.set('daab_link_version', sel.value); noteVersion(); render(); });
-  function noteVersion() {
-    $('version-note').textContent = sel.value
-      ? `Linkene går direkte til den ${sel.value === 'klassisk' ? 'klassiske' : 'farverige'} version.`
-      : (C.valgtVersion
-          ? `Hovedlinket sender videre til den ${C.valgtVersion === 'klassisk' ? 'klassiske' : 'farverige'} version.`
-          : 'Bemærk: Der er endnu ikke valgt version, så hovedlinket viser et valg mellem de to. Vælg en version i config.js, før I sender links ud.');
-  }
-  const link = (t) => C.siteUrl + (sel.value ? sel.value + '.html' : '') + '?g=' + encodeURIComponent(t);
+  const link = (t) => C.siteUrl + '?g=' + encodeURIComponent(t);
   const message = (g) => `Hej ${g.navn}! Vilfred skal døbes lørdag den 23. januar 2027, og I er inviteret. Åbn jeres invitation her: ${link(g.token)}`;
 
   async function copy(text, what) {
@@ -198,7 +179,6 @@
   async function showApp() {
     $('login-view').hidden = true;
     $('app-view').hidden = false;
-    noteVersion();
     await load();
   }
 
