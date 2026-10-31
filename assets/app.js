@@ -145,10 +145,12 @@
         .split(',').map((s) => s.trim()).filter(Boolean);
       const birds = mode === 'birds';
       const leaves = mode === 'leaves' || mode === 'acorns' || mode === 'petals' || birds;
-      const N = birds ? (small ? 10 : 22) : leaves ? (small ? 14 : 34) : (small ? 70 : 170);
+      const nBirds = small ? 5 : 11;
+      const nFeathers = small ? 8 : 18; // fjer, der daler ned
+      const N = birds ? nBirds + nFeathers : leaves ? (small ? 14 : 34) : (small ? 70 : 170);
       const P = [];
       for (let i = 0; i < N; i++) {
-        if (birds && i % 2 === 0) {
+        if (birds && i < nBirds) {
           // små fugle, der flyver hen over skærmen
           P.push({ kind: 'bird', x: -40 - Math.random() * W * 0.5, y: H * (0.12 + Math.random() * 0.5),
             vx: 2.2 + Math.random() * 1.8, vy: -0.25 - Math.random() * 0.35, s: 7 + Math.random() * 6,
@@ -157,7 +159,14 @@
           let kind = 'leaf';
           if (mode === 'acorns' && i % 3 === 0) kind = 'acorn';
           if (mode === 'petals') kind = 'petal';
-          if (birds) kind = 'feather';
+          if (birds) {
+            // fjer i forskellige størrelser – de store daler lidt langsommere
+            const s = [5, 8, 12, 17][Math.floor(Math.random() * 4)] + Math.random() * 3;
+            P.push({ kind: 'feather', x: Math.random() * W, y: -15 - Math.random() * H * 0.3, vx: 0,
+              vy: (1 + Math.random() * 0.8) * (s > 13 ? 0.8 : 1), s, r: (Math.random() - 0.5) * 1.6,
+              vr: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6.28, c: colors[i % colors.length] });
+            continue;
+          }
           P.push({ kind, x: Math.random() * W, y: -20 - Math.random() * H * 0.6, vx: 0, vy: 0.6 + Math.random() * 0.9,
             s: 6 + Math.random() * 7, r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.03,
             ph: Math.random() * 6.28, c: colors[i % colors.length] });
@@ -169,7 +178,7 @@
             ph: Math.random() * 6.28, c: colors[i % colors.length], round: Math.random() < 0.3 });
         }
       }
-      const life = leaves ? 6500 : 4200;
+      const life = birds ? 9000 : leaves ? 6500 : 4200;
       const t0 = performance.now();
       const frame = (now) => {
         const el = now - t0;
@@ -200,6 +209,17 @@
             ctx.beginPath(); ctx.ellipse(0, s * 0.35, s * 0.55, s * 0.7, 0, 0, 6.28); ctx.fill();
             ctx.fillStyle = '#6E4F33';
             ctx.beginPath(); ctx.ellipse(0, -s * 0.15, s * 0.68, s * 0.38, 0, 3.14, 6.28); ctx.fill();
+          } else if (p.kind === 'feather') {
+            // aflang fjer med en tynd stilk
+            const s = p.s;
+            ctx.globalAlpha = fade * 0.9;
+            ctx.beginPath();
+            ctx.moveTo(0, -s);
+            ctx.bezierCurveTo(s * 0.42, -s * 0.55, s * 0.36, s * 0.45, 0, s * 0.8);
+            ctx.bezierCurveTo(-s * 0.36, s * 0.45, -s * 0.42, -s * 0.55, 0, -s);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(44, 58, 71, .35)'; ctx.lineWidth = Math.max(0.6, s / 14);
+            ctx.beginPath(); ctx.moveTo(0, -s * 0.85); ctx.lineTo(0, s * 1.15); ctx.stroke();
           } else if (p.kind === 'petal') {
             ctx.beginPath(); ctx.ellipse(0, 0, p.s * 0.45, p.s * 0.75, 0, 0, 6.28); ctx.fill();
           } else if (leaves) {
