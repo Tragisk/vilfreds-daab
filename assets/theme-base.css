@@ -25,9 +25,7 @@
 @keyframes sway { 50% { transform: rotate(-5deg); } }
 @keyframes twitch { 0%, 88%, 100% { transform: rotate(0); } 92% { transform: rotate(-8deg); } 96% { transform: rotate(4deg); } }
 
-@media (prefers-reduced-motion: reduce) {
-  .env-wrap .deco .ill, .env-wrap .deco .wing, .env-wrap .deco .sq-tail, .env-wrap .deco .ears { animation: none !important; }
-}
+
 
 /* Tilpasninger af grundstilen til temaets farver */
 input[type="text"], input[type="number"], textarea, .opt span, .step { border-color: var(--input-line, #BFB8AA); }

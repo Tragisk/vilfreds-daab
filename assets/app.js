@@ -9,7 +9,8 @@
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignoreres */ } },
     del(k) { try { localStorage.removeItem(k); } catch (e) { /* ignoreres */ } },
   };
-  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Bevægelserne er små og rolige, så de vises på alle telefoner – også iPhones med "Reducer bevægelse" slået til.
+  const reduce = false;
 
   // ---------------------------------------------------------------- Ikoner
   const ICON = {

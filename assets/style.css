@@ -346,8 +346,4 @@ fieldset { border: 0; padding: 0; margin: 22px 0 0; }
   .t-time { font-size: 26px; }
   .card { padding: 24px 16px; }
 }
-/* "Reducer bevægelse" på iPhone: stop de små gentagne bevægelser, men lad konvolutten stadig åbne */
-@media (prefers-reduced-motion: reduce) {
-  .env-wrap, .seal, .hint, main, .ja-felter, .done { animation: none !important; }
-  .slide, .slide-img img { transition-duration: .01ms !important; }
-}
+
