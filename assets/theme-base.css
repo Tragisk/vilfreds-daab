@@ -1,0 +1,35 @@
+/* Fælles for de illustrerede versioner (egern, fugle, hare) */
+.ill { display: block; overflow: visible; height: auto; }
+.ill .ln { fill: none; stroke: var(--ill-line); stroke-width: 1.3px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ill path:not(.ln), .ill ellipse, .ill circle { stroke: var(--ill-line); stroke-width: 1.2px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ill .f-eye, .ill .f-shine, .ill .f-blush { stroke: none !important; }
+.f-eye { fill: #2B2420; } .f-shine { fill: #fff; } .f-blush { fill: #F0A99A; opacity: .55; }
+.f-tailw { fill: #fff; } .f-center { fill: #EBCB7A; }
+
+/* Dekorationer omkring konvolutten */
+.env-wrap .deco { position: absolute; pointer-events: none; z-index: 6; }
+.env-wrap .deco .ill { width: 100%; }
+
+/* Hero, brev og skillelinjer */
+.hero-art { display: flex; flex-direction: column; align-items: center; }
+.hero .branch { display: none; }
+.letter .paper { position: relative; }
+.letter-deco { position: absolute; pointer-events: none; }
+.divider { display: flex; justify-content: center; margin-bottom: 10px; }
+.divider .ill { width: 74px; }
+.foot-art { display: flex; justify-content: center; }
+.foot-art .ill { width: 110px; }
+
+@keyframes bob { 50% { transform: translateY(-3px); } }
+@keyframes flap { 50% { transform: rotate(-28deg) scaleY(.7); } }
+@keyframes sway { 50% { transform: rotate(-5deg); } }
+@keyframes twitch { 0%, 88%, 100% { transform: rotate(0); } 92% { transform: rotate(-8deg); } 96% { transform: rotate(4deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .env-wrap .deco, .env-wrap .deco * { animation: none !important; }
+}
+
+/* Tilpasninger af grundstilen til temaets farver */
+.env-flap .face.out { background: linear-gradient(180deg, var(--env-flap), var(--env-side)); }
+input[type="text"], input[type="number"], textarea, .opt span, .step { border-color: var(--input-line, #BFB8AA); }
+.step:hover { background: var(--bg); }

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vælg version · Vilfreds dåb</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root { --bg: #F4F2ED; --ink: #1F2A33; --muted: #56616B; --accent: #4A6378; --line: #DDD8CE; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 16px 56px; }
+  h1 { font-size: 28px; margin: 0; text-align: center; }
+  .intro { color: var(--muted); text-align: center; margin: 8px auto 0; max-width: 560px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin-top: 28px; }
+  a.card { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); background: #fff; border: 2px solid var(--line); border-radius: 16px; overflow: hidden; transition: border-color .2s, transform .2s; }
+  a.card:hover, a.card:focus-visible { border-color: var(--accent); transform: translateY(-2px); outline: none; }
+  .card img { width: 100%; aspect-ratio: 390 / 520; object-fit: cover; display: block; background: #eee; }
+  .card div { padding: 14px 16px 16px; }
+  .card strong { display: block; font-size: 19px; }
+  .card span { color: var(--muted); font-size: 15px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Vilfreds invitation – vælg version</h1>
+    <p class="intro">Tryk på en version for at se den. Åbn gerne konvolutten og scroll hele vejen ned – indholdet er det samme i alle fire.</p>
+    <div class="grid">
+      <a class="card" href="index.html">
+        <img src="assets/preview-klassisk.jpg" alt="Den klassiske version med dueblå vokssegl">
+        <div><span class="tag">Nuværende</span><strong>Klassisk</strong><span>Som det trykte kort: dueblå, enkle grene og faldende blade</span></div>
+      </a>
+      <a class="card" href="egern.html">
+        <img src="assets/preview-egern.jpg" alt="Versionen med et egern på konvolutten">
+        <div><span class="tag">Ny</span><strong>Egern i skoven</strong><span>Mosgrøn og varm. Et lille egern med et agern hopper væk, når man åbner</span></div>
+      </a>
+      <a class="card" href="fugle.html">
+        <img src="assets/preview-fugle.jpg" alt="Versionen med to små fugle på en gren">
+        <div><span class="tag">Ny</span><strong>Fugle på grenen</strong><span>Lys blå og rosa. To små fugle flyver op fra grenen, og Vilfred står med skråskrift</span></div>
+      </a>
+      <a class="card" href="hare.html">
+        <img src="assets/preview-hare.jpg" alt="Versionen med en hare og blomster ved konvolutten">
+        <div><span class="tag">Ny</span><strong>Haren i engen</strong><span>Støvet rosa og salvie. En hare hopper ud af blomstereng, og der falder kronblade</span></div>
+      </a>
+    </div>
+  </div>
+  <script>
+    // Behold et evt. personligt link (?g=…) når man klikker videre
+    if (location.search) document.querySelectorAll('a.card').forEach(function (a) { a.href += location.search; });
+  </script>
+</body>
+</html>

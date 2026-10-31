@@ -1,0 +1,45 @@
+/* Version: Fugle på grenen */
+:root {
+  --bg: #F2F5F8; --paper: #FFFFFF; --ink: #22313F; --muted: #4E5D6B;
+  --accent: #4F6F8C; --accent-dk: #3A566F; --sage: #8FA6A0; --line: #D5DDE5;
+  --env-front: #E7EEF4; --env-side: #DCE5ED; --env-flap: #E3EBF2; --env-inside: #B7C7D6;
+  --wax: #9A6B79; --wax-hi: #C6979F; --wax-lo: #74495A;
+  --serif: 'EB Garamond', Georgia, serif; --sans: 'Raleway', system-ui, sans-serif; --script: 'Pinyon Script', 'EB Garamond', cursive;
+  --fx-colors: #6C88A2, #9A6B79, #8FA9C0, #B7C7D6;
+  --ill-line: #2C3A47;
+  --input-line: #A9B6C3;
+}
+.f-body { fill: #93ADC4; } .f-wing, .f-tail { fill: #6C88A2; } .f-belly { fill: #F4DCD2; } .f-beak { fill: #E3B266; }
+.f-heart { fill: #D9A2AC; } .f-leaf { fill: #A8BBA0; }
+
+.scene { background: radial-gradient(1000px 600px at 50% 40%, #FAFCFD 0%, transparent 70%), var(--bg); }
+.letter .paper::before { border-color: rgba(79, 111, 140, .25); }
+.slide-img { background: #E6ECF2; }
+.hero h1 { font-family: var(--script); font-weight: 400; font-size: clamp(88px, 25vw, 144px); line-height: 1.2; }
+.el-title { font-family: var(--script); font-weight: 400; font-size: 10.5cqw; line-height: 1.3; }
+.letter h2 { font-style: italic; }
+.letter .sign span { font-family: var(--script); font-style: normal; font-size: 46px; }
+.sec-title { font-weight: 400; }
+
+/* Konvolut */
+.deco-branch { left: -10%; width: 120%; bottom: 86%; }
+.deco-bird { width: 13%; }
+.deco-bird.b1 { left: 27%; bottom: 103%; }
+.deco-bird.b2 { right: 25%; bottom: 103.5%; }
+.deco-bird .flip { display: block; }
+.deco-bird.b2 .flip { transform: scaleX(-1); }
+.deco-bird .ill { animation: bob 2.4s ease-in-out infinite; }
+.deco-bird.b2 .ill { animation-delay: -1.2s; }
+.deco-bird .wing { transform-box: fill-box; transform-origin: 70% 50%; }
+.scene.opening .deco-bird .wing { animation: flap .14s linear infinite; }
+.scene.opening .deco-bird.b1 { animation: fly-l 1.4s ease-in forwards; }
+.scene.opening .deco-bird.b2 { animation: fly-r 1.4s .08s ease-in forwards; }
+.scene.opening .deco-branch { opacity: 0; transition: opacity .6s .55s; }
+@keyframes fly-l { 15% { transform: translate(-10%, -40%); } 100% { transform: translate(-300%, -520%) rotate(-12deg); opacity: 0; } }
+@keyframes fly-r { 15% { transform: translate(10%, -40%); } 100% { transform: translate(300%, -560%) rotate(12deg); opacity: 0; } }
+
+/* Hero, brev, skillelinjer */
+.hero-art .birdbranch { width: 250px; }
+.letter-deco { top: -37px; right: 28px; width: 48px; }
+.letter-deco .ill { transform: scaleX(-1); }
+.divider .ill { width: 70px; }

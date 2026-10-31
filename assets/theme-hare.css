@@ -1,0 +1,44 @@
+/* Version: Haren i engen */
+:root {
+  --bg: #F8F3F0; --paper: #FFFDFB; --ink: #2F2A2E; --muted: #5E5459;
+  --accent: #8A5A66; --accent-dk: #6E4450; --sage: #8FA287; --line: #E8DDD7;
+  --env-front: #F3E6E1; --env-side: #ECDCD5; --env-flap: #F0E2DC; --env-inside: #D8C1B8;
+  --wax: #71866A; --wax-hi: #9FB295; --wax-lo: #52644C;
+  --serif: 'Playfair Display', Georgia, serif; --sans: 'Quicksand', system-ui, sans-serif;
+  --fx-colors: #E7A9B3, #F0CD78, #B8ABD6, #F3C6CC, #A8BBA0;
+  --ill-line: #3B3236;
+  --input-line: #CDBDB6;
+}
+.choice.big .opt span { font-size: 19px; }
+.f-fur { fill: #D3C0AB; } .f-fur2 { fill: #C2AC95; } .f-inner { fill: #EBB5AE; } .f-nose { fill: #C9858F; }
+.f-leaf { fill: #A8BBA0; } .f-petal { fill: #fff; } .f-petal2 { fill: #E7A9B3; } .f-lav { fill: #B3A6D3; }
+
+.scene { background: radial-gradient(1000px 600px at 50% 40%, #FDFAF8 0%, transparent 70%), var(--bg); }
+.letter .paper::before { border-color: rgba(138, 90, 102, .25); }
+.slide-img { background: #F1E7E3; }
+body { font-weight: 400; }
+.hero h1 { font-style: italic; font-weight: 500; }
+.el-title { font-style: italic; font-size: 7.6cqw; }
+.letter h2 { font-style: italic; }
+.sec-title { font-style: italic; font-weight: 400; }
+.t-time { font-style: italic; }
+
+/* Konvolut */
+.deco-meadow { left: -6%; width: 112%; bottom: -8%; z-index: 7; }
+.deco-hare { width: 20%; left: -4%; bottom: -3%; z-index: 8; }
+.deco-hare .ears { transform-box: view-box; transform-origin: 64px 46px; animation: twitch 4.2s ease-in-out infinite; }
+.scene.opening .deco-hare { animation: hop-away 1.2s cubic-bezier(.4, 0, .6, 1) forwards; }
+@keyframes hop-away {
+  0% { transform: none; }
+  18% { transform: translate(0, -18%); }
+  34% { transform: translate(-30%, 0); }
+  52% { transform: translate(-60%, -20%); }
+  70% { transform: translate(-95%, 0); }
+  100% { transform: translate(-220%, -10%); opacity: 0; }
+}
+
+/* Hero, brev, skillelinjer */
+.hero-art .hare { width: 86px; margin-bottom: -16px; position: relative; z-index: 1; }
+.hero-art .meadow { width: 270px; }
+.letter-deco { top: -30px; right: 8px; width: 74px; }
+.divider .ill { width: 64px; }

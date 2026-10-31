@@ -141,12 +141,22 @@
       ctx.scale(dpr, dpr);
       const colors = (getComputedStyle(document.body).getPropertyValue('--fx-colors') || '#4A6378')
         .split(',').map((s) => s.trim()).filter(Boolean);
-      const leaves = mode === 'leaves';
-      const N = leaves ? (small ? 14 : 34) : (small ? 70 : 170);
+      const birds = mode === 'birds';
+      const leaves = mode === 'leaves' || mode === 'acorns' || mode === 'petals' || birds;
+      const N = birds ? (small ? 10 : 22) : leaves ? (small ? 14 : 34) : (small ? 70 : 170);
       const P = [];
       for (let i = 0; i < N; i++) {
-        if (leaves) {
-          P.push({ x: Math.random() * W, y: -20 - Math.random() * H * 0.6, vx: 0, vy: 0.6 + Math.random() * 0.9,
+        if (birds && i % 2 === 0) {
+          // små fugle, der flyver hen over skærmen
+          P.push({ kind: 'bird', x: -40 - Math.random() * W * 0.5, y: H * (0.12 + Math.random() * 0.5),
+            vx: 2.2 + Math.random() * 1.8, vy: -0.25 - Math.random() * 0.35, s: 7 + Math.random() * 6,
+            r: 0, vr: 0, ph: Math.random() * 6.28, c: colors[i % colors.length] });
+        } else if (leaves) {
+          let kind = 'leaf';
+          if (mode === 'acorns' && i % 3 === 0) kind = 'acorn';
+          if (mode === 'petals') kind = 'petal';
+          if (birds) kind = 'feather';
+          P.push({ kind, x: Math.random() * W, y: -20 - Math.random() * H * 0.6, vx: 0, vy: 0.6 + Math.random() * 0.9,
             s: 6 + Math.random() * 7, r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.03,
             ph: Math.random() * 6.28, c: colors[i % colors.length] });
         } else {
@@ -164,7 +174,9 @@
         ctx.clearRect(0, 0, W, H);
         const fade = Math.max(0, Math.min(1, (life - el) / 900));
         P.forEach((p) => {
-          if (leaves) {
+          if (p.kind === 'bird') {
+            p.ph += 0.32; p.x += p.vx; p.y += p.vy + Math.sin(p.ph * 0.25) * 0.4;
+          } else if (leaves) {
             p.ph += 0.03; p.x += Math.sin(p.ph) * 0.8; p.y += p.vy; p.r += p.vr;
           } else {
             p.vy += 0.28; p.vx *= 0.985; p.vy *= 0.985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.ph += 0.12;
@@ -173,7 +185,22 @@
           ctx.globalAlpha = fade;
           ctx.translate(p.x, p.y); ctx.rotate(p.r);
           ctx.fillStyle = p.c;
-          if (leaves) {
+          if (p.kind === 'bird') {
+            const flap = Math.sin(p.ph) * p.s * 0.7;
+            ctx.strokeStyle = p.c; ctx.lineWidth = 1.8; ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(-p.s, -flap * 0.4);
+            ctx.quadraticCurveTo(-p.s * 0.5, -flap - 2, 0, 0);
+            ctx.quadraticCurveTo(p.s * 0.5, -flap - 2, p.s, -flap * 0.4);
+            ctx.stroke();
+          } else if (p.kind === 'acorn') {
+            const s = p.s * 0.8;
+            ctx.beginPath(); ctx.ellipse(0, s * 0.35, s * 0.55, s * 0.7, 0, 0, 6.28); ctx.fill();
+            ctx.fillStyle = '#6E4F33';
+            ctx.beginPath(); ctx.ellipse(0, -s * 0.15, s * 0.68, s * 0.38, 0, 3.14, 6.28); ctx.fill();
+          } else if (p.kind === 'petal') {
+            ctx.beginPath(); ctx.ellipse(0, 0, p.s * 0.45, p.s * 0.75, 0, 0, 6.28); ctx.fill();
+          } else if (leaves) {
             ctx.beginPath();
             ctx.moveTo(0, -p.s);
             ctx.quadraticCurveTo(p.s * 0.75, 0, 0, p.s);
