@@ -266,7 +266,8 @@
   const params = new URLSearchParams(location.search);
   let token = params.get('g') || store.get('daab_token') || '';
   let gaest = null;
-  const flertal = (n) => /(&|\bog\b|\by\b|,|\+|familia)/i.test(n || '');
+  // du/I ud fra navnet: et "&" betyder flere personer (fx "Mormor & Morfar")
+  const flertal = (n) => /&/.test(n || '');
 
   // Sprog: fra gæsten i databasen eller fra linket (&l=es), så teksten er rigtig med det samme
   function applyLang() {
@@ -626,7 +627,7 @@
     const msg = $('#rsvp-msg');
     msg.textContent = '';
     const v = $('#rsvp input[name=deltager]:checked');
-    if (!v) { msg.textContent = T('errChoose', 'Vælg om I kommer.'); return; }
+    if (!v) { msg.textContent = T('errChoose', gaest && flertal(gaest.navn) ? 'Vælg om I kommer.' : 'Vælg om du kommer.'); return; }
     const ja = v.value === 'ja';
     const navn = F.navn ? F.navn.value.trim() : '';
     if (!gaest && !navn) { msg.textContent = T('errName', 'Skriv jeres navn.'); F.navn.focus(); return; }

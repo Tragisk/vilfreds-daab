@@ -54,8 +54,8 @@ window.DAAB_I18N = (() => {
     ['#lbl-navn', 'text', 'Nombre(s)'],
     ['#f-navn', 'ph', 'Ej.: Familia Pérez'],
     ['#lbl-deltager', 'text', ['¿Podrá acompañarnos?', '¿Podrán acompañarnos?']],
-    ['input[name=deltager][value=ja] + span', 'text', ['Sí, asistiré', 'Sí, asistiremos']],
-    ['input[name=deltager][value=nej] + span', 'text', ['Lamentablemente no podré', 'Lamentablemente no podremos']],
+    ['input[name=deltager][value=ja] + span', 'dig', ['Sí, asistiré', 'Sí, asistiremos']],
+    ['input[name=deltager][value=nej] + span', 'dig', ['Lamentablemente no podré', 'Lamentablemente no podremos']],
     ['label[for=f-voksne]', 'text', 'Adultos'],
     ['label[for=f-boern]', 'text', 'Niños'],
     ['[data-for=f-voksne][data-step="-1"]', 'aria', 'Menos adultos'],
@@ -137,6 +137,7 @@ window.DAAB_I18N = (() => {
         else if (how === 'ph') el.setAttribute('placeholder', v);
         else if (how === 'aria') el.setAttribute('aria-label', v);
         else if (how === 'tail') setTail(el, v);
+        else if (how === 'dig') { el.setAttribute('data-dig', val[0]); el.setAttribute('data-jer', val[1]); el.textContent = v; }
         else if (how.indexOf('attr:') === 0) el.setAttribute(how.slice(5), v);
       });
     });

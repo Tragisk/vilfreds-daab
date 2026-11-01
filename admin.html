@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Oversigt · Vilfreds dåb</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<script src="assets/config.js?v=20261101g"></script>
+<script src="assets/config.js?v=20261101h"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <style>
   :root {
@@ -158,7 +158,7 @@
   const fmtKg = (v) => String(v).replace('.', ',');
   const fmtDate = (s) => new Date(s).toLocaleString('da-DK', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
-  const flertal = (n) => /(&|\bog\b|\by\b|,|\+|familia)/i.test(n || '');
+  const flertal = (n) => /&/.test(n || '');
   const link = (g) => C.siteUrl + '?g=' + encodeURIComponent(g.token) + (g.sprog === 'es' ? '&l=es' : '');
   const message = (g) => g.sprog === 'es'
     ? (flertal(g.navn)
