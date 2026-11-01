@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Vilfreds daab//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:vilfreds-daab-20270123@tragisk.github.io
+DTSTAMP:20261101T120000Z
+DTSTART:20270123T100000Z
+DTEND:20270123T153000Z
+SUMMARY:Vilfreds barnedåb
+LOCATION:Nathanaels Kirke\, Holmbladsgade 19\, 2300 København S
+DESCRIPTION:Kl. 11.00: Dåb i Nathanaels Kirke\, Holmbladsgade 19\, 2300 K
+ øbenhavn S.\nKl. 12.30–16.30: Frokost på Little House\, Lindgreens All
+ é 1\, 2300 København S.\nGratis parkering i området.\n\nInvitation og t
+ ilmelding: https://tragisk.github.io/vilfreds-daab/
+URL:https://tragisk.github.io/vilfreds-daab/
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P1D
+DESCRIPTION:I morgen er det Vilfreds barnedåb
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Vilfreds daab//DA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:vilfreds-daab-20270123-es@tragisk.github.io
+DTSTAMP:20261101T120000Z
+DTSTART:20270123T100000Z
+DTEND:20270123T153000Z
+SUMMARY:Bautizo de Vilfred
+LOCATION:Nathanaels Kirke\, Holmbladsgade 19\, 2300 København S
+DESCRIPTION:11:00 a. m.: Bautizo en la iglesia Nathanaels Kirke\, Holmblads
+ gade 19\, 2300 København S.\n12:30–4:30 p. m.: Almuerzo en Little House
+ \, Lindgreens Allé 1\, 2300 København S.\nEstacionamiento gratuito en la
+  zona.
+URL:https://tragisk.github.io/vilfreds-daab/
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P1D
+DESCRIPTION:Mañana es el bautizo de Vilfred
+END:VALARM
+END:VEVENT
+END:VCALENDAR

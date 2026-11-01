@@ -492,27 +492,23 @@
 
   // ---------------------------------------------------------------- Kalender
   function initCalendar() {
-    const z = (d) => new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-    const start = z(C.dato), end = z(C.slut), stamp = z(Date.now());
-    const desc = I.lang === 'es' ? T('calDesc', '') : 'Kl. 11.00: Dåb i Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\\nKl. 12.30–16.30: Frokost på Little House, Lindgreens Allé 1, 2300 København S.\\nGratis parkering i området.';
-    const ics = [
-      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Vilfreds daab//DA', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
-      'BEGIN:VEVENT', 'UID:vilfreds-daab-20270123@tragisk.github.io', 'DTSTAMP:' + stamp,
-      'DTSTART:' + start, 'DTEND:' + end, 'SUMMARY:' + T('calSummary', 'Vilfreds barnedåb'),
-      'LOCATION:Nathanaels Kirke\\, Holmbladsgade 19\\, 2300 København S', 'DESCRIPTION:' + desc,
-      'END:VEVENT', 'END:VCALENDAR',
-    ].join('\r\n');
+    // Rigtige .ics-filer på siden (data-links blokeres af iPhone) – iPhone/Outlook åbner dem direkte
     const a = $('#cal-ics');
-    if (a) { a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'vilfreds-daab.ics'; }
+    if (a) { a.href = I.lang === 'es' ? 'vilfreds-daab-es.ics' : 'vilfreds-daab.ics'; a.removeAttribute('download'); }
     const g = $('#cal-google');
     if (g) {
-      const u = new URL('https://calendar.google.com/calendar/render');
-      u.searchParams.set('action', 'TEMPLATE');
-      u.searchParams.set('text', T('calSummary', 'Vilfreds barnedåb'));
-      u.searchParams.set('dates', `${start}/${end}`);
-      u.searchParams.set('location', 'Nathanaels Kirke, Holmbladsgade 19, 2300 København S');
-      u.searchParams.set('details', desc.replace(/\\n/g, '\n'));
-      g.href = u.toString();
+      const es = I.lang === 'es';
+      const details = es
+        ? '11:00 a. m.: Bautizo en la iglesia Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\n12:30–4:30 p. m.: Almuerzo en Little House, Lindgreens Allé 1, 2300 København S.\nEstacionamiento gratuito en la zona.'
+        : 'Kl. 11.00: Dåb i Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\nKl. 12.30–16.30: Frokost på Little House, Lindgreens Allé 1, 2300 København S.\nGratis parkering i området.';
+      const q = (k, v) => k + '=' + encodeURIComponent(v);
+      g.href = 'https://calendar.google.com/calendar/render?' + [
+        'action=TEMPLATE',
+        q('text', es ? 'Bautizo de Vilfred' : 'Vilfreds barnedåb'),
+        'dates=20270123T100000Z/20270123T153000Z',
+        q('location', 'Nathanaels Kirke, Holmbladsgade 19, 2300 København S'),
+        q('details', details),
+      ].join('&');
     }
     const w = $('#wishlist');
     if (w) w.href = C.oenskesky;

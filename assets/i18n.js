@@ -40,8 +40,8 @@ window.DAAB_I18N = (() => {
     ['.timeline li:nth-child(2) p', 'text', 'Lindgreens Allé 1, 2300 København S · hasta las 4:30 p. m.'],
     ['.timeline .link-btn', 'tail', 'Cómo llegar'],
     ['.program .note', 'tail', 'Hay estacionamiento gratuito en la zona.'],
-    ['#cal-ics', 'tail', 'Agregar al calendario'],
-    ['#cal-google', 'tail', 'Google Calendar'],
+    ['#cal-ics', 'tail', 'iPhone / Outlook'],
+    ['#cal-google', 'tail', 'Google / Android'],
 
     ['#wish-h', 'text', 'Lista de deseos'],
     ['.wish p', 'text', 'Mamá y papá reunieron algunos deseos para mí aquí (la página está en danés)'],
