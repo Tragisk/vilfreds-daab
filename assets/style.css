@@ -225,7 +225,7 @@ section.scene { margin-top: 0; }
 
 /* Billeder – rolig krydsfade */
 .slider { margin-top: 28px; overflow-x: clip; padding-bottom: 4px; }
-.slides { position: relative; aspect-ratio: 4 / 5; max-width: 440px; margin: 0 auto; touch-action: pan-y; outline: none; }
+.slides { position: relative; aspect-ratio: 5 / 7; max-width: 440px; margin: 0 auto; touch-action: pan-y; outline: none; }
 .slides:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
 .slide {
   position: absolute; inset: 0; margin: 0;
@@ -237,12 +237,14 @@ section.scene { margin-top: 0; }
 }
 .slide[data-pos="cur"] { opacity: 1; transform: none; z-index: 2; }
 .slide-img { flex: 1; min-height: 0; overflow: hidden; background: #EEE9DF; }
-.slide-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); transition: transform 6s ease-out; }
+.slide-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; transform: scale(1.06); transition: transform 6s ease-out; }
 .slide[data-pos="cur"] .slide-img img { transform: scale(1); }
 .slide-img.ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--accent); }
 .slide-img.ph svg { width: 44px; height: 44px; }
 .slide-img.ph span { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
 .slide figcaption { font-family: var(--serif); font-style: italic; font-size: 22px; text-align: center; padding: 12px 8px 14px; }
+.slide-img.wide img { object-fit: contain; object-position: center; }
+.slide-count { font-family: var(--serif); font-size: 20px; min-width: 76px; text-align: center; color: var(--muted); }
 .slider-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 .dots { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
 .dot { width: 20px; height: 44px; border: 0; padding: 0; background: none; cursor: pointer; position: relative; }

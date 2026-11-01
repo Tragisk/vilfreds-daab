@@ -10,7 +10,7 @@ Hjemmeside med konvolut, der åbnes, billeder, program, ønskesky og tilmelding.
 | `assets/theme-base.css`, `assets/theme-fugle.css` | Fugle-temaet: farver, skrifttyper og fuglefamilien |
 | `assets/config.js` | **Ret her:** billeder (med spansk billedtekst i `tekst_es`), dato, ønskesky, lydstyrke |
 | `assets/i18n.js` | Spansk oversættelse (Peru, "usted") – bruges for gæster med sprog = spansk |
-| `img/` | Læg de 10 billeder her (fx `01.jpg` … `10.jpg`) |
+| `img/` | De 21 billeder til "Lidt om mig" (`01.jpg` … `21.jpg`, i visningsrækkefølge, uden GPS-data) |
 
 ## Billeder
 Læg filerne i `img/` og skriv stien i `billeder` i `assets/config.js`, fx `{ src: "img/01.jpg", tekst: "1 måned" }`.

@@ -16,18 +16,29 @@ window.DAAB = {
   // Lyd (0 = slukket, 1 = fuld styrke)
   lydstyrke: 0.15,
 
-  // 10 billeder. Læg filerne i mappen img/ og skriv filnavnet i src, fx "img/01.jpg".
-  // Er src tom, vises en pladsholder. tekst_es er billedteksten på spansk.
+  // Billederne under "Lidt om mig" i den rækkefølge, de vises. Filerne ligger i img/.
+  // tekst er den danske billedtekst, tekst_es den spanske.
   billeder: [
-    { src: "", tekst: "1 måned", tekst_es: "1 mes" },
-    { src: "", tekst: "2 måneder", tekst_es: "2 meses" },
-    { src: "", tekst: "3 måneder", tekst_es: "3 meses" },
-    { src: "", tekst: "4 måneder", tekst_es: "4 meses" },
-    { src: "", tekst: "5 måneder", tekst_es: "5 meses" },
-    { src: "", tekst: "Hvem har taget min sut?", tekst_es: "¿Quién se llevó mi chupón?" },
-    { src: "", tekst: "Mandag morgen", tekst_es: "Lunes por la mañana" },
-    { src: "", tekst: "Når far synger", tekst_es: "Cuando papá canta" },
-    { src: "", tekst: "Helt ærligt?", tekst_es: "¿En serio?" },
-    { src: "", tekst: "Klar til den store dag", tekst_es: "Listo para el gran día" },
+    { src: "img/01.jpg", tekst: "Velkommen til verden", tekst_es: "Bienvenido al mundo" },
+    { src: "img/02.jpg", tekst: "Mit første døgn", tekst_es: "Mis primeras 24 horas" },
+    { src: "img/03.jpg", tekst: "Når jeg gør mig til", tekst_es: "Cuando me hago el lindo" },
+    { src: "img/04.jpg", tekst: "Når det er hundekoldt", tekst_es: "Cuando hace un frío que pela" },
+    { src: "img/05.jpg", tekst: "Når jeg hygger med mor og far", tekst_es: "Cuando mamá y papá me engríen" },
+    { src: "img/06.jpg", tekst: "Når jeg får lov til at sove på far", tekst_es: "Cuando me dejan dormir sobre papá" },
+    { src: "img/07.jpg", tekst: "Når jeg får lov til at sove på mor", tekst_es: "Cuando me dejan dormir sobre mamá" },
+    { src: "img/08.jpg", tekst: "Når jeg gemmer mig", tekst_es: "Cuando me escondo" },
+    { src: "img/09.jpg", tekst: "Mit første bad", tekst_es: "Mi primer baño" },
+    { src: "img/10.jpg", tekst: "Min første tur i vikle", tekst_es: "Mi primer paseo en portabebé" },
+    { src: "img/11.jpg", tekst: "Tvangsfodring hos far", tekst_es: "Cuando papá me hace comer a la fuerza" },
+    { src: "img/12.jpg", tekst: "Mælkekoma hos mor", tekst_es: "En coma de leche con mamá" },
+    { src: "img/13.jpg", tekst: "Når jeg bare vil have mere mælk", tekst_es: "Cuando solo quiero más leche" },
+    { src: "img/14.jpg", tekst: "Når far hjælper mig med at bøvse", tekst_es: "Cuando papá me ayuda a eructar" },
+    { src: "img/15.jpg", tekst: "Når mor hjælper mig med at bøvse", tekst_es: "Cuando mamá me ayuda a eructar" },
+    { src: "img/16.jpg", tekst: "Når mor og far tvinger mig til fællesbillede", tekst_es: "Cuando mamá y papá me obligan a salir en la foto familiar" },
+    { src: "img/17.jpg", tekst: "Mig med oldemors hjemmestrik", tekst_es: "Yo con lo que me tejió mi bisabuela" },
+    { src: "img/18.jpg", tekst: "Når alt er cool", tekst_es: "Cuando todo está chévere" },
+    { src: "img/19.jpg", tekst: "Med far på \"job\"", tekst_es: "Con papá en el \"trabajo\"" },
+    { src: "img/20.jpg", tekst: "Min første tur på café", tekst_es: "Mi primera salida a un café" },
+    { src: "img/21.jpg", tekst: "Så glad ser jeg ud når I kommer til min barnedåb", tekst_es: "Así de feliz estaré cuando vengan a mi bautizo" },
   ],
 };

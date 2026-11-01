@@ -390,6 +390,8 @@
           const img = new Image();
           img.src = b.src; img.alt = b.tekst || `Billede ${i + 1} af Vilfred`;
           img.loading = i < 2 ? 'eager' : 'lazy'; img.decoding = 'async';
+          // liggende billeder vises helt i stedet for at blive beskåret
+          img.addEventListener('load', () => { if (img.naturalWidth > img.naturalHeight) frame.classList.add('wide'); });
           frame.appendChild(img);
         } else {
           frame.classList.add('ph');
@@ -448,6 +450,8 @@
         s.style.setProperty('--abs', Math.abs(off));
         s.dataset.pos = off === 0 ? 'cur' : off < 0 ? 'before' : 'after';
         s.setAttribute('aria-hidden', off === 0 ? 'false' : 'true');
+        // hent det aktuelle og de nærmeste billeder med det samme
+        if (off >= -1 && off <= 2) { const im = s.querySelector('img'); if (im && im.loading !== 'eager') im.loading = 'eager'; }
       });
       this.dots.forEach((d, k) => d.setAttribute('aria-current', k === this.cur ? 'true' : 'false'));
       const c = $('#slide-count');

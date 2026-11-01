@@ -19,12 +19,12 @@ window.DAAB_I18N = (() => {
     ['#seal', 'aria', 'Rompa el sello y abra la invitación'],
     ['.hint', 'text', 'Toque el sello para abrir'],
 
-    ['.hero .kicker', 'text', 'Invitación al bautizo de'],
+    ['.hero .kicker', 'text', 'Bautizo de'],
     ['.hero-date', 'text', 'Sábado 23 de enero de 2027 · 11:00 a. m.'],
 
     ['#greeting', 'attr:data-fallback', '¡Hola!'],
-    ['.letter .paper p:nth-of-type(1)', 'text', 'Soy yo, Vilfred. Tengo casi medio año, pero ya aprendí muchísimas cosas: a sonreír, a dormir (a veces) y a comer (todo el tiempo).'],
-    ['.letter .paper p:nth-of-type(2)', 'html', 'Ahora me van a bautizar, y me haría muy feliz que <span data-dig="usted me acompañe" data-jer="ustedes me acompañen">usted me acompañe</span>. Mamá y papá prometieron que después habrá comida rica, y yo prometí hacer lo posible por no llorar en la iglesia.'],
+    ['.letter .paper p:nth-of-type(1)', 'text', 'Soy yo, Vilfred. Tengo solo 2 meses, pero ya aprendí muchísimas cosas: a sonreír, a dormir (a veces) y a comer (todo el tiempo).'],
+    ['.letter .paper p:nth-of-type(2)', 'html', 'Ahora me van a bautizar, y me hará muy feliz que <span data-dig="usted me acompañe" data-jer="ustedes me acompañen">usted me acompañe</span>. Mamá y papá prometieron que después habrá comida rica, y yo prometí hacer lo posible por no llorar en la iglesia.'],
     ['.letter .sign', 'html', 'Con cariño,<br><span>Vilfred</span>'],
 
     ['#photos-h', 'text', 'Un poquito sobre mí'],
