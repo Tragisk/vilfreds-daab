@@ -13,6 +13,9 @@ window.DAAB = {
   svarFrist: "15. december",
   oenskesky: "https://onskeskyen.dk/s/exfm9p",
 
+  // Skal billederne under "Lidt om mig" skifte af sig selv? (false = kun når man bladrer)
+  autoskift: false,
+
   // Lyd (0 = slukket, 1 = fuld styrke)
   lydstyrke: 0.15,
 

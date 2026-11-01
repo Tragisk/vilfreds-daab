@@ -459,7 +459,7 @@
     },
     hold() { this.pauseUntil = Date.now() + 9000; },
     start() {
-      if (this.timer || reduce) return;
+      if (this.timer || reduce || !C.autoskift) return;
       this.timer = setInterval(() => {
         if (document.hidden || Date.now() < this.pauseUntil) return;
         this.set(this.cur + 1);
