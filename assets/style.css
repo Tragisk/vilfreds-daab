@@ -262,6 +262,8 @@ section.scene { margin-top: 0; }
 .link-btn:hover { text-decoration: underline; }
 .note { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; color: var(--muted); }
 .note i { color: var(--accent); }
+.cal-alt { text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px; }
+.cal-alt a { display: inline-block; padding: 10px 0; }
 .cal { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
 
 /* Knapper */
