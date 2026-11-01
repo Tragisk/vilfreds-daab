@@ -44,7 +44,7 @@ window.DAAB_I18N = (() => {
     ['#cal-google', 'tail', 'Google Calendar'],
 
     ['#wish-h', 'text', 'Lista de deseos'],
-    ['.wish p', 'text', 'Mamá y papá prepararon una pequeña lista de deseos para mí (la página está en danés).'],
+    ['.wish p', 'text', 'Mamá y papá reunieron algunos deseos para mí aquí (la página está en danés)'],
     ['#wishlist', 'text', 'Ver la lista de deseos'],
 
     ['#rsvp-h', 'text', 'Confirmación de asistencia'],
