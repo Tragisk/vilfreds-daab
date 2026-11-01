@@ -12,6 +12,9 @@ Hjemmeside med konvolut, der åbnes, billeder, program, ønskesky og tilmelding.
 | `assets/i18n.js` | Spansk oversættelse (Peru, "usted") – bruges for gæster med sprog = spansk |
 | `img/` | De 21 billeder til "Lidt om mig" (`01.jpg` … `21.jpg`, i visningsrækkefølge, uden GPS-data) |
 
+## Versionsnummer
+Når CSS/JS ændres, så hæv `?v=…` i index.html og admin.html, så telefoner henter de nye filer.
+
 ## Billeder
 Læg filerne i `img/` og skriv stien i `billeder` i `assets/config.js`, fx `{ src: "img/01.jpg", tekst: "1 måned" }`.
 Gør dem gerne max ca. 1200 px brede, så siden loader hurtigt på mobil.
