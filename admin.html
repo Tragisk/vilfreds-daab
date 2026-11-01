@@ -54,6 +54,7 @@
   .guest:first-child { border-top: 0; }
   .g-name { font-weight: 700; font-size: 17px; }
   .badge { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+  .b-lang { background: #E8EEF6; color: #34506B; }
   .b-ok { background: var(--ok-bg); color: var(--ok); } .b-no { background: var(--no-bg); color: var(--no); } .b-wait { background: var(--wait-bg); color: var(--wait); }
   .g-meta { color: var(--muted); font-size: 14px; }
   .g-msg { font-style: italic; margin-top: 4px; white-space: pre-line; }
@@ -103,6 +104,11 @@
       <textarea id="new-guests" rows="3" placeholder="Mormor &amp; Morfar&#10;Faster Line, Peter og børnene"></textarea>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="add" type="button">Tilføj</button>
+        <label class="muted" for="new-lang" style="margin-left:auto">Invitationens sprog</label>
+        <select id="new-lang">
+          <option value="da">Dansk</option>
+          <option value="es">Spansk</option>
+        </select>
       </div>
     </div>
 
@@ -152,8 +158,13 @@
   const fmtKg = (v) => String(v).replace('.', ',');
   const fmtDate = (s) => new Date(s).toLocaleString('da-DK', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
-  const link = (t) => C.siteUrl + '?g=' + encodeURIComponent(t);
-  const message = (g) => `Hej ${g.navn}! Vilfred skal døbes lørdag den 23. januar 2027, og I er inviteret. Åbn jeres invitation her: ${link(g.token)}`;
+  const flertal = (n) => /(&|\bog\b|\by\b|,|\+|familia)/i.test(n || '');
+  const link = (g) => C.siteUrl + '?g=' + encodeURIComponent(g.token) + (g.sprog === 'es' ? '&l=es' : '');
+  const message = (g) => g.sprog === 'es'
+    ? (flertal(g.navn)
+        ? `Hola, ${g.navn}: Vilfred será bautizado el sábado 23 de enero de 2027 y nos encantaría que nos acompañen. Pueden abrir su invitación aquí: ${link(g)}`
+        : `Hola, ${g.navn}: Vilfred será bautizado el sábado 23 de enero de 2027 y nos encantaría que nos acompañe. Puede abrir su invitación aquí: ${link(g)}`)
+    : `Hej ${g.navn}! Vilfred skal døbes lørdag den 23. januar 2027, og I er inviteret. Åbn jeres invitation her: ${link(g)}`;
 
   async function copy(text, what) {
     try { await navigator.clipboard.writeText(text); toast(what + ' kopieret'); }
@@ -195,7 +206,7 @@
   $('add').addEventListener('click', async () => {
     const names = $('new-guests').value.split('\n').map((s) => s.trim()).filter(Boolean).map((s) => s.slice(0, 120));
     if (!names.length) return;
-    const { error } = await sb.from('daab_gaester').insert(names.map((navn) => ({ navn })));
+    const { error } = await sb.from('daab_gaester').insert(names.map((navn) => ({ navn, sprog: $('new-lang').value })));
     if (error) { toast('Fejl: ' + error.message); return; }
     $('new-guests').value = '';
     toast(names.length === 1 ? '1 gæst tilføjet' : names.length + ' gæster tilføjet');
@@ -208,6 +219,13 @@
     document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
     render();
   }));
+
+  async function setLang(g, sprog) {
+    const { error } = await sb.from('daab_gaester').update({ sprog }).eq('id', g.id);
+    if (error) { toast('Fejl: ' + error.message); return; }
+    toast(g.navn + (sprog === 'es' ? ' får nu invitationen på spansk' : ' får nu invitationen på dansk'));
+    load();
+  }
 
   async function del(g, btn) {
     if (!btn.classList.contains('sure')) {
@@ -259,14 +277,16 @@
       const delBtn = h('button', { class: 'btn danger small', type: 'button' }, 'Slet');
       delBtn.addEventListener('click', () => del(g, delBtn));
       const actions = [
-        h('button', { class: 'btn ghost small', type: 'button', onclick: () => copy(link(g.token), 'Link') }, 'Kopiér link'),
+        h('button', { class: 'btn ghost small', type: 'button', onclick: () => copy(link(g), 'Link') }, 'Kopiér link'),
         h('button', { class: 'btn ghost small', type: 'button', onclick: () => copy(message(g), 'Besked') }, 'Kopiér besked'),
       ];
       if (navigator.share) actions.push(h('button', { class: 'btn ghost small', type: 'button', onclick: () => navigator.share({ text: message(g) }).catch(() => {}) }, 'Del'));
+      actions.push(h('button', { class: 'btn ghost small', type: 'button', onclick: () => setLang(g, g.sprog === 'es' ? 'da' : 'es') },
+        g.sprog === 'es' ? 'Skift til dansk' : 'Skift til spansk'));
       actions.push(delBtn);
       return h('div', { class: 'guest' },
         h('div', null,
-          h('div', null, h('span', { class: 'g-name' }, g.navn), badge),
+          h('div', null, h('span', { class: 'g-name' }, g.navn), badge, g.sprog === 'es' ? h('span', { class: 'badge b-lang' }, 'Spansk') : null),
           meta.length ? h('div', { class: 'g-meta' }, meta.join(' · ')) : null,
           g.hilsen ? h('div', { class: 'g-msg' }, '“' + g.hilsen + '”') : null),
         h('div', { class: 'g-actions' }, actions));
@@ -283,13 +303,13 @@
 
   // CSV (semikolon + BOM, så Excel på dansk åbner den pænt)
   $('csv').addEventListener('click', () => {
-    const head = ['Navn', 'Svar', 'Voksne', 'Børn', 'Deltager i', 'Allergier', 'Vægtgæt (kg)', 'Hilsen', 'Svaret', 'Link'];
+    const head = ['Navn', 'Sprog', 'Svar', 'Voksne', 'Børn', 'Deltager i', 'Allergier', 'Vægtgæt (kg)', 'Hilsen', 'Svaret', 'Link'];
     const q = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
     const lines = rows.map((r) => [
-      r.navn, r.deltager === true ? 'Kommer' : r.deltager === false ? 'Afbud' : 'Mangler svar',
+      r.navn, r.sprog === 'es' ? 'Spansk' : 'Dansk', r.deltager === true ? 'Kommer' : r.deltager === false ? 'Afbud' : 'Mangler svar',
       r.deltager ? r.voksne : '', r.deltager ? r.boern : '',
       r.deltager ? (r.dele === 'kirke' ? 'Kun kirken' : r.dele === 'frokost' ? 'Kun frokosten' : 'Kirke + frokost') : '',
-      r.allergier, r.vaegt_gaet != null ? fmtKg(r.vaegt_gaet) : '', r.hilsen, r.svaret_at ? fmtDate(r.svaret_at) : '', link(r.token),
+      r.allergier, r.vaegt_gaet != null ? fmtKg(r.vaegt_gaet) : '', r.hilsen, r.svaret_at ? fmtDate(r.svaret_at) : '', link(r),
     ].map(q).join(';'));
     const blob = new Blob(['﻿' + [head.map(q).join(';'), ...lines].join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = h('a', { href: URL.createObjectURL(blob), download: 'vilfreds-daab-tilmeldinger.csv' });

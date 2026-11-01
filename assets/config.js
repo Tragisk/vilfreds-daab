@@ -17,17 +17,17 @@ window.DAAB = {
   lydstyrke: 0.15,
 
   // 10 billeder. Læg filerne i mappen img/ og skriv filnavnet i src, fx "img/01.jpg".
-  // Er src tom, vises en pladsholder.
+  // Er src tom, vises en pladsholder. tekst_es er billedteksten på spansk.
   billeder: [
-    { src: "", tekst: "1 måned" },
-    { src: "", tekst: "2 måneder" },
-    { src: "", tekst: "3 måneder" },
-    { src: "", tekst: "4 måneder" },
-    { src: "", tekst: "5 måneder" },
-    { src: "", tekst: "Hvem har taget min sut?" },
-    { src: "", tekst: "Mandag morgen" },
-    { src: "", tekst: "Når far synger" },
-    { src: "", tekst: "Helt ærligt?" },
-    { src: "", tekst: "Klar til den store dag" },
+    { src: "", tekst: "1 måned", tekst_es: "1 mes" },
+    { src: "", tekst: "2 måneder", tekst_es: "2 meses" },
+    { src: "", tekst: "3 måneder", tekst_es: "3 meses" },
+    { src: "", tekst: "4 måneder", tekst_es: "4 meses" },
+    { src: "", tekst: "5 måneder", tekst_es: "5 meses" },
+    { src: "", tekst: "Hvem har taget min sut?", tekst_es: "¿Quién se llevó mi chupón?" },
+    { src: "", tekst: "Mandag morgen", tekst_es: "Lunes por la mañana" },
+    { src: "", tekst: "Når far synger", tekst_es: "Cuando papá canta" },
+    { src: "", tekst: "Helt ærligt?", tekst_es: "¿En serio?" },
+    { src: "", tekst: "Klar til den store dag", tekst_es: "Listo para el gran día" },
   ],
 };

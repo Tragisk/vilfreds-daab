@@ -2,6 +2,10 @@
 (() => {
   'use strict';
   const C = window.DAAB;
+  // Oversættelser (assets/i18n.js). Uden den fil virker siden bare på dansk.
+  const I = window.DAAB_I18N || { t: (k, da, v) => String(da).replace(/\{(\w+)\}/g, (m, x) => (v && x in v ? v[x] : m)), apply() {}, lang: 'da' };
+  const T = (k, da, v) => I.t(k, da, v);
+  const dec = (v) => (I.lang === 'es' ? String(v) : String(v).replace('.', ','));
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const store = {
@@ -254,7 +258,7 @@
     const txt = await r.text();
     let data = null;
     try { data = txt ? JSON.parse(txt) : null; } catch (e) { data = null; }
-    if (!r.ok) throw new Error((data && data.message) || 'Noget gik galt. Prøv igen om lidt.');
+    if (!r.ok) throw new Error((data && data.message) || T('errGeneric', 'Noget gik galt. Prøv igen om lidt.'));
     return data;
   }
 
@@ -262,7 +266,15 @@
   const params = new URLSearchParams(location.search);
   let token = params.get('g') || store.get('daab_token') || '';
   let gaest = null;
-  const flertal = (n) => /(&|\bog\b|,|\+)/i.test(n || '');
+  const flertal = (n) => /(&|\bog\b|\by\b|,|\+|familia)/i.test(n || '');
+
+  // Sprog: fra gæsten i databasen eller fra linket (&l=es), så teksten er rigtig med det samme
+  function applyLang() {
+    const l = (gaest && gaest.sprog === 'es') || params.get('l') === 'es' ? 'es' : 'da';
+    if (l === 'da') return;
+    I.apply(l, gaest ? flertal(gaest.navn) : false);
+    Slides.relabel(); tick(); initCalendar(); syncJa(); paintSound();
+  }
 
   function personalize() {
     const navn = gaest && gaest.navn;
@@ -270,7 +282,7 @@
     $$('[data-navn]').forEach((el) => { el.textContent = navn || el.dataset.navn; });
     $$('[data-dig]').forEach((el) => { el.textContent = navn && pl ? el.dataset.jer : el.dataset.dig; });
     const greet = $('#greeting');
-    if (greet) greet.textContent = navn ? `Kære ${navn}` : (greet.dataset.fallback || 'Hej med dig');
+    if (greet) greet.textContent = navn ? T('greet', 'Kære {navn}', { navn }) : (greet.dataset.fallback || 'Hej med dig');
   }
 
   async function loadGuest() {
@@ -279,6 +291,7 @@
       gaest = await rpc('daab_hent', { p_token: token });
       if (!gaest) { token = ''; store.del('daab_token'); }
     } catch (e) { gaest = null; }
+    applyLang();
     personalize();
     renderRsvpState();
   }
@@ -347,11 +360,24 @@
 
   // ---------------------------------------------------------------- Billeder
   const Slides = {
-    cur: 0, timer: null, pauseUntil: 0, slides: [], dots: [],
+    cur: 0, timer: null, pauseUntil: 0, slides: [], dots: [], list: [],
+    caption(b) { return (I.lang === 'es' && b.tekst_es) || b.tekst || ''; },
+    relabel() {
+      const n = this.list.length;
+      this.slides.forEach((fig, i) => {
+        const b = this.list[i];
+        fig.setAttribute('aria-label', T('slideOf', '{i} af {n}', { i: i + 1, n }));
+        const cap = fig.querySelector('figcaption'); if (cap) cap.textContent = this.caption(b);
+        const img = fig.querySelector('img'); if (img) img.alt = this.caption(b) || T('photoAlt', 'Billede {i} af Vilfred', { i: i + 1 });
+        const ph = fig.querySelector('.ph span'); if (ph) ph.textContent = T('photo', 'Billede {i}', { i: i + 1 });
+      });
+      this.dots.forEach((d, i) => d.setAttribute('aria-label', T('showPhoto', 'Vis billede {i}', { i: i + 1 })));
+    },
     init() {
       const track = $('#slides');
       if (!track) return;
       const list = C.billeder || [];
+      this.list = list;
       list.forEach((b, i) => {
         const fig = document.createElement('figure');
         fig.className = 'slide';
@@ -374,7 +400,7 @@
         }
         fig.appendChild(frame);
         const cap = document.createElement('figcaption');
-        cap.textContent = b.tekst || '';
+        cap.textContent = this.caption(b);
         fig.appendChild(cap);
         track.appendChild(fig);
         this.slides.push(fig);
@@ -407,6 +433,7 @@
         if (e.key === 'ArrowRight') { this.hold(); this.set(this.cur + 1); }
       });
       track.addEventListener('mouseenter', () => this.hold());
+      this.relabel();
       this.set(0);
     },
     set(i) {
@@ -447,25 +474,27 @@
       el.innerHTML = '';
       const p = document.createElement('p');
       p.className = 'cd-done';
-      p.textContent = done ? 'I dag er dagen!' : 'Tak fordi I var med!';
+      p.textContent = done ? T('today', 'I dag er dagen!') : T('thanksCame', 'Tak fordi I var med!');
       el.appendChild(p);
       return;
     }
     const d = Math.floor(ms / 864e5), h = Math.floor((ms % 864e5) / 36e5), m = Math.floor((ms % 36e5) / 6e4);
     const set = (id, v) => { const x = $('#' + id); if (x) x.textContent = v; };
     set('cd-d', d); set('cd-h', h); set('cd-m', m);
-    set('cd-d-l', d === 1 ? 'dag' : 'dage'); set('cd-h-l', h === 1 ? 'time' : 'timer'); set('cd-m-l', m === 1 ? 'minut' : 'minutter');
+    set('cd-d-l', d === 1 ? T('cdDay1', 'dag') : T('cdDayN', 'dage'));
+    set('cd-h-l', h === 1 ? T('cdHour1', 'time') : T('cdHourN', 'timer'));
+    set('cd-m-l', m === 1 ? T('cdMin1', 'minut') : T('cdMinN', 'minutter'));
   }
 
   // ---------------------------------------------------------------- Kalender
   function initCalendar() {
     const z = (d) => new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
     const start = z(C.dato), end = z(C.slut), stamp = z(Date.now());
-    const desc = 'Kl. 11.00: Dåb i Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\\nKl. 12.30–16.30: Frokost på Little House, Lindgreens Allé 1, 2300 København S.\\nGratis parkering i området.';
+    const desc = I.lang === 'es' ? T('calDesc', '') : 'Kl. 11.00: Dåb i Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\\nKl. 12.30–16.30: Frokost på Little House, Lindgreens Allé 1, 2300 København S.\\nGratis parkering i området.';
     const ics = [
       'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Vilfreds daab//DA', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
       'BEGIN:VEVENT', 'UID:vilfreds-daab-20270123@tragisk.github.io', 'DTSTAMP:' + stamp,
-      'DTSTART:' + start, 'DTEND:' + end, 'SUMMARY:Vilfreds barnedåb',
+      'DTSTART:' + start, 'DTEND:' + end, 'SUMMARY:' + T('calSummary', 'Vilfreds barnedåb'),
       'LOCATION:Nathanaels Kirke\\, Holmbladsgade 19\\, 2300 København S', 'DESCRIPTION:' + desc,
       'END:VEVENT', 'END:VCALENDAR',
     ].join('\r\n');
@@ -475,7 +504,7 @@
     if (g) {
       const u = new URL('https://calendar.google.com/calendar/render');
       u.searchParams.set('action', 'TEMPLATE');
-      u.searchParams.set('text', 'Vilfreds barnedåb');
+      u.searchParams.set('text', T('calSummary', 'Vilfreds barnedåb'));
       u.searchParams.set('dates', `${start}/${end}`);
       u.searchParams.set('location', 'Nathanaels Kirke, Holmbladsgade 19, 2300 København S');
       u.searchParams.set('details', desc.replace(/\\n/g, '\n'));
@@ -512,7 +541,7 @@
     const box = $('#ja-felter');
     if (box) box.hidden = !(v && v.value === 'ja');
     const sendBtn = $('#rsvp-send');
-    if (sendBtn) sendBtn.textContent = v && v.value === 'nej' ? 'Send afbud' : 'Send svar';
+    if (sendBtn) sendBtn.textContent = T('send', v && v.value === 'nej' ? 'Send afbud' : 'Send svar');
   }
 
   function renderRsvpState() {
@@ -541,7 +570,7 @@
       if (d) d.checked = true;
       F.allergier.value = g.allergier || '';
     }
-    F.vaegt.value = g.vaegt_gaet != null ? String(g.vaegt_gaet).replace('.', ',') : '';
+    F.vaegt.value = g.vaegt_gaet != null ? dec(g.vaegt_gaet) : '';
     F.hilsen.value = g.hilsen || '';
     syncJa();
   }
@@ -559,21 +588,27 @@
     done.hidden = false;
     const pl = flertal(g.navn);
     const title = $('#done-title'), text = $('#done-text');
-    if (g.deltager) {
+    const es = I.lang === 'es';
+    const n = (x, en, fl) => `${x} ${x === 1 ? en : fl}`;
+    if (g.deltager && es) {
+      title.textContent = T('doneYesTitle', '');
+      const dele = g.dele === 'kirke' ? 'solo la iglesia' : g.dele === 'frokost' ? 'solo el almuerzo' : 'la iglesia y el almuerzo';
+      text.textContent = `Anotamos ${n(g.voksne, 'adulto', 'adultos')}${g.boern ? ' y ' + n(g.boern, 'niño', 'niños') : ''} para ${dele}.` +
+        (g.allergier ? ` Restricciones: ${g.allergier}.` : '');
+    } else if (g.deltager) {
       title.textContent = pl ? 'Hurra – I kommer!' : 'Hurra – du kommer!';
-      const n = (x, en, fl) => `${x} ${x === 1 ? en : fl}`;
       const dele = g.dele === 'kirke' ? 'kun kirken' : g.dele === 'frokost' ? 'kun frokosten' : 'både kirke og frokost';
       text.textContent = `Vi har noteret ${n(g.voksne, 'voksen', 'voksne')}${g.boern ? ' og ' + n(g.boern, 'barn', 'børn') : ''} til ${dele}.` +
         (g.allergier ? ` Hensyn: ${g.allergier}.` : '');
     } else {
-      title.textContent = 'Tak for beskeden';
-      text.textContent = pl ? 'Hvor er det ærgerligt, at I ikke kan komme. Vi tænker på jer på dagen.' : 'Hvor er det ærgerligt, at du ikke kan komme. Vi tænker på dig på dagen.';
+      title.textContent = T('doneNoTitle', 'Tak for beskeden');
+      text.textContent = es ? T('doneNoText', '') : pl ? 'Hvor er det ærgerligt, at I ikke kan komme. Vi tænker på jer på dagen.' : 'Hvor er det ærgerligt, at du ikke kan komme. Vi tænker på dig på dagen.';
     }
     const extra = $('#done-extra');
     if (extra) {
       const bits = [];
-      if (g.vaegt_gaet != null) bits.push(`Dit gæt på Vilfreds vægt: ${String(g.vaegt_gaet).replace('.', ',')} kg.`);
-      if (g.hilsen) bits.push('Tak for hilsenen – den gemmer vi til Vilfred.');
+      if (g.vaegt_gaet != null) bits.push(T('doneGuess', 'Dit gæt på Vilfreds vægt: {kg} kg.', { kg: dec(g.vaegt_gaet) }));
+      if (g.hilsen) bits.push(T('doneMsg', 'Tak for hilsenen – den gemmer vi til Vilfred.'));
       extra.textContent = bits.join(' ');
     }
     if (fresh) {
@@ -590,20 +625,20 @@
     const msg = $('#rsvp-msg');
     msg.textContent = '';
     const v = $('#rsvp input[name=deltager]:checked');
-    if (!v) { msg.textContent = 'Vælg om I kommer.'; return; }
+    if (!v) { msg.textContent = T('errChoose', 'Vælg om I kommer.'); return; }
     const ja = v.value === 'ja';
     const navn = F.navn ? F.navn.value.trim() : '';
-    if (!gaest && !navn) { msg.textContent = 'Skriv jeres navn.'; F.navn.focus(); return; }
+    if (!gaest && !navn) { msg.textContent = T('errName', 'Skriv jeres navn.'); F.navn.focus(); return; }
     let vaegt = null;
     const vRaw = (F.vaegt.value || '').trim().replace(',', '.').replace(/[^\d.]/g, '');
     if (vRaw) {
       vaegt = parseFloat(vRaw);
-      if (!(vaegt >= 2 && vaegt <= 20)) { msg.textContent = 'Gæt på en vægt mellem 2 og 20 kg.'; F.vaegt.focus(); return; }
+      if (!(vaegt >= 2 && vaegt <= 20)) { msg.textContent = T('errWeight', 'Gæt på en vægt mellem 2 og 20 kg.'); F.vaegt.focus(); return; }
     }
     const btn = $('#rsvp-send');
     btn.disabled = true;
     const label = btn.textContent;
-    btn.textContent = 'Sender …';
+    btn.textContent = T('sending', 'Sender …');
     try {
       const dele = $('#rsvp input[name=dele]:checked');
       const res = await rpc('daab_svar', {
@@ -629,7 +664,7 @@
       renderRsvpState();
       showDone(true);
     } catch (err) {
-      msg.textContent = err.message;
+      msg.textContent = I.lang === 'es' ? (/Linket/.test(err.message) ? T('errLink', '') : T('errGeneric', '')) : err.message;
     } finally {
       btn.disabled = false;
       btn.textContent = label;
@@ -637,16 +672,18 @@
   }
 
   // ---------------------------------------------------------------- Lydknap
+  function paintSound() {
+    const b = $('#sound-toggle');
+    if (!b) return;
+    b.innerHTML = svg(Snd.on ? 'sound' : 'mute');
+    b.setAttribute('aria-label', Snd.on ? T('soundOff', 'Slå lyd fra') : T('soundOn', 'Slå lyd til'));
+    b.setAttribute('aria-pressed', Snd.on ? 'false' : 'true');
+  }
   function initSoundBtn() {
     const b = $('#sound-toggle');
     if (!b) return;
-    const paint = () => {
-      b.innerHTML = svg(Snd.on ? 'sound' : 'mute');
-      b.setAttribute('aria-label', Snd.on ? 'Slå lyd fra' : 'Slå lyd til');
-      b.setAttribute('aria-pressed', Snd.on ? 'false' : 'true');
-    };
-    b.addEventListener('click', () => { Snd.init(); Snd.toggle(); paint(); });
-    paint();
+    b.addEventListener('click', () => { Snd.init(); Snd.toggle(); paintSound(); });
+    paintSound();
   }
 
   // ---------------------------------------------------------------- Start
@@ -662,6 +699,7 @@
     $('#envelope').addEventListener('click', openEnvelope);
     const rp = $('#replay');
     if (rp) rp.addEventListener('click', replay);
+    applyLang();
     loadGuest();
   });
 })();

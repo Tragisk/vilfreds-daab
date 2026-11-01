@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="assets/theme-base.css">
 <link rel="stylesheet" href="assets/theme-fugle.css">
 <script src="assets/config.js"></script>
+<script src="assets/i18n.js"></script>
 <script src="assets/app.js" defer></script>
 <noscript><style>#scene{display:none!important}#main{display:block!important}</style></noscript>
 </head>
@@ -200,12 +201,12 @@
       <p class="rsvp-who" id="rsvp-who" hidden>Svar for <strong id="rsvp-guest"></strong></p>
 
       <label class="field" id="name-field">
-        <span class="lbl">Jeres navn(e)</span>
+        <span class="lbl" id="lbl-navn">Jeres navn(e)</span>
         <input id="f-navn" name="navn" type="text" autocomplete="name" maxlength="120" placeholder="Fx Mormor og Morfar">
       </label>
 
       <fieldset class="choice big">
-        <legend class="lbl">Kommer I?</legend>
+        <legend class="lbl" id="lbl-deltager">Kommer I?</legend>
         <label class="opt"><input type="radio" name="deltager" value="ja"><span>Ja, vi kommer</span></label>
         <label class="opt"><input type="radio" name="deltager" value="nej"><span>Vi kan desværre ikke</span></label>
       </fieldset>
@@ -231,26 +232,26 @@
         </div>
 
         <fieldset class="choice">
-          <legend class="lbl">Hvor deltager I?</legend>
+          <legend class="lbl" id="lbl-dele">Hvor deltager I?</legend>
           <label class="opt"><input type="radio" name="dele" value="begge" checked><span>Kirke og frokost</span></label>
           <label class="opt"><input type="radio" name="dele" value="kirke"><span>Kun kirken</span></label>
           <label class="opt"><input type="radio" name="dele" value="frokost"><span>Kun frokosten</span></label>
         </fieldset>
 
         <label class="field">
-          <span class="lbl">Allergier eller kosthensyn <em>(valgfrit)</em></span>
+          <span class="lbl" id="lbl-allergier">Allergier eller kosthensyn <em>(valgfrit)</em></span>
           <input id="f-allergier" type="text" maxlength="500" placeholder="Fx glutenfri, vegetar">
         </label>
       </div>
 
       <label class="field">
-        <span class="lbl">Gæt Vilfreds vægt på dåbsdagen <em>(valgfrit)</em></span>
+        <span class="lbl" id="lbl-vaegt">Gæt Vilfreds vægt på dåbsdagen <em>(valgfrit)</em></span>
         <span class="unit-wrap"><input id="f-vaegt" type="text" inputmode="decimal" maxlength="6" placeholder="Fx 7,4"><span class="unit">kg</span></span>
-        <span class="help">Vi afslører vinderen til frokosten.</span>
+        <span class="help" id="help-vaegt">Vi afslører vinderen til frokosten.</span>
       </label>
 
       <label class="field">
-        <span class="lbl">Hilsen til Vilfred <em>(valgfrit)</em></span>
+        <span class="lbl" id="lbl-hilsen">Hilsen til Vilfred <em>(valgfrit)</em></span>
         <textarea id="f-hilsen" rows="3" maxlength="2000" placeholder="Vi gemmer hilsnerne til ham, til han bliver stor."></textarea>
       </label>
 
