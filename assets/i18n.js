@@ -108,12 +108,12 @@ window.DAAB_I18N = (() => {
     calDesc: '11:00 a. m.: Bautizo en la iglesia Nathanaels Kirke, Holmbladsgade 19, 2300 København S.\\n12:30–4:30 p. m.: Almuerzo en Little House, Lindgreens Allé 1, 2300 København S.\\nEstacionamiento gratuito en la zona.',
   };
 
-  const pick = (v) => (Array.isArray(v) ? v[pl ? 1 : 0] : v);
+  const pick = (v, plural) => (Array.isArray(v) ? v[(typeof plural === 'boolean' ? plural : pl) ? 1 : 0] : v);
   const fill = (s, vars) => String(s).replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? vars[k] : m));
 
-  function t(key, da, vars) {
+  function t(key, da, vars, plural) {
     if (lang !== 'es' || !(key in STR_ES)) return fill(da, vars);
-    return fill(pick(STR_ES[key]), vars);
+    return fill(pick(STR_ES[key], plural), vars);
   }
 
   function setTail(el, text) {

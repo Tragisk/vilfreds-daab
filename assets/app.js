@@ -4,7 +4,7 @@
   const C = window.DAAB;
   // Oversættelser (assets/i18n.js). Uden den fil virker siden bare på dansk.
   const I = window.DAAB_I18N || { t: (k, da, v) => String(da).replace(/\{(\w+)\}/g, (m, x) => (v && x in v ? v[x] : m)), apply() {}, lang: 'da' };
-  const T = (k, da, v) => I.t(k, da, v);
+  const T = (k, da, v, plural) => I.t(k, da, v, plural);
   const dec = (v) => (I.lang === 'es' ? String(v) : String(v).replace('.', ','));
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -586,12 +586,13 @@
     $('#rsvp').hidden = true;
     const done = $('#rsvp-done');
     done.hidden = false;
-    const pl = flertal(g.navn);
+    // du/I: ved ja afgør antallet (1 voksen og 0 børn = du), ved afbud afgør et & i navnet
+    const pl = g.deltager ? ((g.voksne || 0) + (g.boern || 0)) > 1 : /&/.test(g.navn || '');
     const title = $('#done-title'), text = $('#done-text');
     const es = I.lang === 'es';
     const n = (x, en, fl) => `${x} ${x === 1 ? en : fl}`;
     if (g.deltager && es) {
-      title.textContent = T('doneYesTitle', '');
+      title.textContent = T('doneYesTitle', '', null, pl);
       const dele = g.dele === 'kirke' ? 'solo la iglesia' : g.dele === 'frokost' ? 'solo el almuerzo' : 'la iglesia y el almuerzo';
       text.textContent = `Anotamos ${n(g.voksne, 'adulto', 'adultos')}${g.boern ? ' y ' + n(g.boern, 'niño', 'niños') : ''} para ${dele}.` +
         (g.allergier ? ` Restricciones: ${g.allergier}.` : '');
@@ -602,12 +603,12 @@
         (g.allergier ? ` Hensyn: ${g.allergier}.` : '');
     } else {
       title.textContent = T('doneNoTitle', 'Tak for beskeden');
-      text.textContent = es ? T('doneNoText', '') : pl ? 'Hvor er det ærgerligt, at I ikke kan komme. Vi tænker på jer på dagen.' : 'Hvor er det ærgerligt, at du ikke kan komme. Vi tænker på dig på dagen.';
+      text.textContent = es ? T('doneNoText', '', null, pl) : pl ? 'Hvor er det ærgerligt, at I ikke kan komme. Vi tænker på jer på dagen.' : 'Hvor er det ærgerligt, at du ikke kan komme. Vi tænker på dig på dagen.';
     }
     const extra = $('#done-extra');
     if (extra) {
       const bits = [];
-      if (g.vaegt_gaet != null) bits.push(T('doneGuess', 'Dit gæt på Vilfreds vægt: {kg} kg.', { kg: dec(g.vaegt_gaet) }));
+      if (g.vaegt_gaet != null) bits.push(T('doneGuess', (pl ? 'Jeres' : 'Dit') + ' gæt på Vilfreds vægt: {kg} kg.', { kg: dec(g.vaegt_gaet) }));
       if (g.hilsen) bits.push(T('doneMsg', 'Tak for hilsenen – den gemmer vi til Vilfred.'));
       extra.textContent = bits.join(' ');
     }
