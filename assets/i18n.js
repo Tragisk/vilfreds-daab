@@ -44,8 +44,9 @@ window.DAAB_I18N = (() => {
     ['#cal-alt', 'html', '¿Usa Google Calendar? <a id="cal-google" href="#" target="_blank" rel="noopener">Agréguelo aquí</a>'],
 
     ['#wish-h', 'text', 'Lista de deseos'],
-    ['.wish p', 'text', 'Mamá y papá reunieron algunos deseos para mí aquí (la página está en danés)'],
+    ['.wish p:not(.wish-note)', 'text', 'Mamá y papá reunieron algunos deseos para mí aquí (la página está en danés)'],
     ['#wishlist', 'text', 'Ver la lista de deseos'],
+    ['#wish-note', 'text', 'No es definitiva, se actualiza continuamente'],
 
     ['#rsvp-h', 'text', 'Confirmación de asistencia'],
     ['.rsvp-intro', 'text', ['Por favor, confirme a más tardar el 15 de diciembre.', 'Por favor, confirmen a más tardar el 15 de diciembre.']],

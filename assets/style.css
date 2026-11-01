@@ -287,6 +287,7 @@ section.scene { margin-top: 0; }
 .wish-icon { width: 36px !important; height: 36px !important; color: var(--accent); }
 .wish .sec-title { margin-top: 8px; }
 .wish p { margin: 10px auto 22px; max-width: 420px; color: var(--muted); }
+.wish .wish-note { margin: 12px auto 0; font-size: 13px; font-style: italic; color: var(--muted); }
 
 /* Tilmelding */
 .rsvp-intro { text-align: center; margin-top: 8px; color: var(--muted); }
