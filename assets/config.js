@@ -10,7 +10,7 @@ window.DAAB = {
   // Dagen
   dato: "2027-01-23T11:00:00+01:00",
   slut: "2027-01-23T16:30:00+01:00",
-  svarFrist: "20. december",
+  svarFrist: "15. december",
   oenskesky: "https://onskeskyen.dk/s/exfm9p",
 
   // Lyd (0 = slukket, 1 = fuld styrke)

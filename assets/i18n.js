@@ -48,7 +48,7 @@ window.DAAB_I18N = (() => {
     ['#wishlist', 'text', 'Ver la lista de deseos'],
 
     ['#rsvp-h', 'text', 'Confirmación de asistencia'],
-    ['.rsvp-intro', 'text', ['Por favor, confirme a más tardar el 20 de diciembre.', 'Por favor, confirmen a más tardar el 20 de diciembre.']],
+    ['.rsvp-intro', 'text', ['Por favor, confirme a más tardar el 15 de diciembre.', 'Por favor, confirmen a más tardar el 15 de diciembre.']],
     ['#rsvp-who', 'html', 'Respuesta de <strong id="rsvp-guest"></strong>'],
     ['#lbl-navn', 'text', 'Nombre(s)'],
     ['#f-navn', 'ph', 'Ej.: Familia Pérez'],
